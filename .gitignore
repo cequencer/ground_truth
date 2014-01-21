@@ -1,0 +1,4 @@
+*pyc
+*.db
+settings.py
+ground_truth/media/*

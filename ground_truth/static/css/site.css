@@ -1,0 +1,39 @@
+.label-button{
+    margin-left: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    text-align: center;
+    background-color: #eeeeee;
+
+    cursor: pointer;
+}
+
+.label-1{
+    background-color: yellow;
+}
+
+.label-0{
+    background-color: #cccccc;
+}
+
+.token-span{
+    /*font-size: 18px;*/
+}
+
+.token-li{
+    margin-top: 20px;
+}
+
+.pagination{
+    margin-top: 25px;
+    margin-bottom: 50px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+    background-color: #eeeeee;
+    cursor: pointer;
+    font-size: 20px;
+}
