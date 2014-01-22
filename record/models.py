@@ -10,16 +10,27 @@ class Record(models.Model):
     record_id = models.AutoField(primary_key=True)
     record = models.TextField(blank=True)
     pubfile = models.ForeignKey(Pubfile, blank=True, null=True)
+    researcher = models.CharField(max_length=100, blank=True)
 
     def __unicode__(self):
         return self.record
+
+    def is_labeled(self):
+        try:
+            tokens = Pubtoken.objects.filter(belonging_record=self)
+            for token in tokens:
+                if not token.true_label.exists():
+                    return False
+            return True
+        except Exception, e:
+            raise e
 
     def save(self):
         if self.pubfile:
             try:
                 fp = open(self.pubfile.get_path(), 'r')
                 for line in fp:
-                    new_record = Record(record=line)
+                    new_record = Record(record=line, researcher=self.pubfile.pubfile_name)
                     super(Record, new_record).save()
 
                     tokens = tokenizer.tokenize(line)['tokens']

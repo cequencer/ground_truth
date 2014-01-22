@@ -3,9 +3,17 @@
 {% block content %}
 
 {% for record in records %}
-<div class="record-wrapper">
-    <span class='record'>{{record.record_id}}. </span> <a href='/align/align/{{record.record_id}}'>{{record.record}}</a>
-</div>
+    {% if record.is_labeled %}
+        <div class="record-wrapper record-labeled">
+            <span class='record'>{{record.record_id}}. </span> <a href='/align/align/{{record.record_id}}'>{{record.record}}</a>
+        </div>    
+    
+    {% else %}
+        <div class="record-wrapper record-unlabeled">
+            <span class='record'>{{record.record_id}}. </span> <a href='/align/align/{{record.record_id}}'>{{record.record}}</a>
+        </div>
+    {% endif %}
+
 {% endfor %}
 
 <div class="clear"></div>

@@ -44,6 +44,14 @@
     font-size: 20px;
 }
 
+.record-labeled a{
+    color: #2FED3C;
+}
+
+.record-unlabeled a{
+    color: #CC0A0A;
+}
+
 .record{
     font-size: 20px;
 }
