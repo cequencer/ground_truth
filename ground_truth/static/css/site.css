@@ -37,3 +37,13 @@
     cursor: pointer;
     font-size: 20px;
 }
+
+.record-wrapper{
+    margin-top: 5px;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.record{
+    font-size: 20px;
+}

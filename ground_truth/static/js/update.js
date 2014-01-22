@@ -77,10 +77,33 @@ function clear_labels(){
 }
 
 $(document).ready(function() {
-    $('body').on('click', 'div.pagination', function() {
+    $('body').on('click', 'div.pagination_single_record', function() {
        var selected_id = $(this).attr('id');
         var page_id = selected_id.split('-')[1];
-        window.location = '/align/' + page_id;
+        window.location = '/align/align/' + page_id;
+    });
+
+    $('body').on('click', 'div.pagination_prev_page', function() {
+        var cur_page_id = parseInt(window.location.toString().split('/').pop());
+        if(!cur_page_id){   //default page = 0
+            window.location = '/align/page/';
+        }
+        else if(cur_page_id-1 == 0){
+            window.location = '/align/page/';    
+        }
+        else{
+            window.location = '/align/page/' + (cur_page_id-1);    
+        }
+        
+    });
+    $('body').on('click', 'div.pagination_next_page', function() {
+        var cur_page_id = parseInt(window.location.toString().split('/').pop());
+        if(!cur_page_id){   //default page = 0
+            window.location = '/align/page/1';
+        }
+        else{
+            window.location = '/align/page/' + (cur_page_id+1);
+        }
     });
 
     $('body').on('click', 'span.name-label', select_name);

@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404,HttpResponseNotFound
 from django.shortcuts import render_to_response, get_object_or_404
 from record.models import Record, Pubtoken
 from label.models import Label
@@ -18,8 +18,28 @@ def parse_update_label(label_class, selected_id):
     return selected, selected_label, token_id
 
 
-def index(request):
-    pass
+def index(request, pagination='0'):
+    pagination = int(pagination)
+    RECORDS_PER_PAGE = 100
+
+    try:
+        max_id = Record.objects.latest('record_id').record_id
+        start_record = pagination * RECORDS_PER_PAGE 
+        end_record = pagination * RECORDS_PER_PAGE + 100
+        
+        if start_record > max_id:
+            raise Http404
+
+        if end_record > max_id + 1:
+            records = Record.objects.all().order_by('record_id')[start_record:]      
+        else:
+            records = Record.objects.all().order_by('record_id')[start_record:end_record]
+
+    except Exception, e:
+        raise Http404
+
+    return render_to_response('record/index.html',
+        {'records':records})
 
 
 def align(request, record_id):
@@ -81,7 +101,7 @@ def align(request, record_id):
 @csrf_exempt
 def update_label(request):
     if not request.method.lower() == 'post':
-        return Http404()
+        raise Http404
     else:
         selected, selected_label_str, token_id = parse_update_label(request.POST['label_class'], request.POST['selected_id'])
         token = get_object_or_404(Pubtoken, token_id=token_id)
@@ -110,7 +130,7 @@ def update_label(request):
 @csrf_exempt
 def select_name(request):
     if not request.method.lower() == 'post':
-        return Http404()
+        raise Http404
     else:
         token_id = int(request.POST['selected_id'])
         token = get_object_or_404(Pubtoken, token_id=token_id)
@@ -129,7 +149,7 @@ def select_name(request):
 @csrf_exempt
 def clear_labels(request):
     if not request.method.lower() == 'post':
-        return Http404()
+        raise Http404
     else:
         token_id = int(request.POST['selected_id'])
         token = get_object_or_404(Pubtoken, token_id=token_id)
