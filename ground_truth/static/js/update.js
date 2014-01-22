@@ -77,8 +77,11 @@ function clear_labels(){
 }
 
 $(document).ready(function() {
-    // $('#previous').click();
-    // $('#next').click();
+    $('body').on('click', 'div.pagination', function() {
+       var selected_id = $(this).attr('id');
+        var page_id = selected_id.split('-')[1];
+        window.location = '/align/' + page_id;
+    });
 
     $('body').on('click', 'span.name-label', select_name);
     $('body').on('click', 'span.clear-label', clear_labels)

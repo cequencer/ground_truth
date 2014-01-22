@@ -17,12 +17,43 @@ def parse_update_label(label_class, selected_id):
 
     return selected, selected_label, token_id
 
+
 def index(request):
     pass
 
 
 def align(request, record_id):
+    record_id = int(record_id)
     record = get_object_or_404(Record, record_id=record_id)
+
+    # find prev and next
+    # count_all = Record.objects.count()
+    max_id = Record.objects.latest('record_id').record_id
+    next = None
+    next_id = record_id + 1
+    prev = None
+    prev_id = record_id - 1
+    
+    while next is None:
+        try:
+            if next_id > max_id:
+                next = None
+                break
+            next = Record.objects.get(record_id=next_id)
+        except Exception, e:
+            next_id += 1
+            next = None
+
+    while prev is None:
+        try:
+            if prev_id < 0:
+                prev = None
+                break
+            prev = Record.objects.get(record_id=prev_id)
+        except Exception, e:
+            prev_id -= 1
+            prev = None        
+
     try:
         tokens = Pubtoken.objects.filter(belonging_record=record).order_by('token_sequence_id')
         available_labels = Label.objects.all().order_by('label_id')
@@ -31,8 +62,20 @@ def align(request, record_id):
         tokens = []
         print e
 
+    # pagination managing
+    if next is None:
+        next_id = record_id
+    if prev is None:
+        prev_id = record_id
+
     return render_to_response('record/record.html', 
-        {'record': record, 'tokens':tokens, 'available_labels':available_labels, })
+        {
+            'record': record, 
+            'tokens':tokens, 
+            'available_labels':available_labels, 
+            'next_id':next_id,
+            'prev_id':prev_id,
+        })
 
 
 @csrf_exempt
