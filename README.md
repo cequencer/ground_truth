@@ -7,3 +7,4 @@ A Web interface for easier ground truth generation and labeling stats collection
 #### TODO:  
   
 1. Double percentage syntax
+2. Add Validator module so that stats can be calculated
