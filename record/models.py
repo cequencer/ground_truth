@@ -1,7 +1,7 @@
 from django.db import models
 from ground_truth.settings import MEDIA_ROOT
 from pubfile.models import Pubfile
-from pubtoken.tokenizer import Tokenizer
+from utils.tokenizer import Tokenizer
 from label.models import Label
 
 tokenizer = Tokenizer()
