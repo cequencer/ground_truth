@@ -55,3 +55,11 @@
 .record{
     font-size: 20px;
 }
+
+.cur-li{
+    background-color: #9CF5FF;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 15px;
+    margin-bottom: -5px;
+}

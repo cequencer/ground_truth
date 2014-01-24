@@ -111,4 +111,12 @@ $(document).ready(function() {
 
     $('body').on('click', 'span.label-1', update_label);
     $('body').on('click', 'span.label-0', update_label);
+
+    $('li.token-li')
+      .mouseover(function() {
+        $(this).addClass('cur-li');
+      })
+      .mouseout(function() {
+        $(this).removeClass('cur-li');
+      });
 });
