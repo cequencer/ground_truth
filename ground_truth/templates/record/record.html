@@ -2,6 +2,17 @@
 
 {% block content %}
 
+<div class='grid_12 validation-mode'>
+    <span>Validation Mode: </span>
+    {% if mode.mode == True %}
+        <span class='mode mode-on'>On</span>
+    {% else %}
+        <span class='mode mode-off'>Off</span>
+    {% endif %}
+</div>
+
+<div class="clear"></div>
+
 <div class="grid_12">
     <span class="record">{{record.record}}</span>
 </div>
@@ -22,8 +33,23 @@
                     <span class="label-button name-label" id="name-{{token.token_id}}"><b>Name</b></span>
 
                     {% for available_label in available_labels %}
-                        {% if available_label in token.true_label.all %}
-                            <span class="label-button label-1" id="{{available_label}}-{{token.token_id}}">{{available_label}}</span>
+                        {% if available_label in token.true_label.all and available_label in token.predicted_label.all %}
+                            {% if mode.mode == True%}
+                                <span class="label-button label-1 label-g" id="{{available_label}}-{{token.token_id}}">{{available_label}}</span>
+                            {% else %}
+                                <span class="label-button label-1" id="{{available_label}}-{{token.token_id}}">{{available_label}}</span>
+                            {% endif %}
+
+                        {% elif available_label in token.true_label.all and available_label not in token.predicted_label.all %}
+                            <span class="label-button label-1" id="{{available_label}}-{{token.token_id}}">{{available_label}}</span>   
+                                                 
+                        {% elif available_label not in token.true_label.all and available_label in token.predicted_label.all %}
+                            {% if mode.mode == True%}
+                                <span class="label-button label-0 label-r" id="{{available_label}}-{{token.token_id}}">{{available_label}}</span>
+                            {% else %}
+                                <span class="label-button label-0" id="{{available_label}}-{{token.token_id}}">{{available_label}}</span>
+                            {% endif %}
+                            
                         {% else %}
                             <span class="label-button label-0" id="{{available_label}}-{{token.token_id}}">{{available_label}}</span>
                         {% endif %}

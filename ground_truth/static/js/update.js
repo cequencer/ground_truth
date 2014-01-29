@@ -76,6 +76,25 @@ function clear_labels(){
     });
 }
 
+function change_mode(){
+    // var reference = this;   //important
+
+    $.post('/validate/change_mode', 
+    {
+        'mode': $(this).attr('class'),
+    }, 
+    function(res){
+      if(res == true){
+        console.log('Mode toggle Success!');
+        location.reload();
+        // $(this).toggleClass('mode-on mode-off');
+      }
+      else{
+        console.log("There's some unexpected error, please try again later!");
+      }
+    });
+}
+
 $(document).ready(function() {
     $('body').on('click', 'div.pagination_single_record', function() {
        var selected_id = $(this).attr('id');
@@ -111,6 +130,8 @@ $(document).ready(function() {
 
     $('body').on('click', 'span.label-1', update_label);
     $('body').on('click', 'span.label-0', update_label);
+
+    $('body').on('click', 'span.mode', change_mode);    
 
     $('li.token-li')
       .mouseover(function() {

@@ -19,6 +19,36 @@
     background-color: #cccccc;
 }
 
+.label-g{
+    background-color: #2FED3C;
+}
+
+.label-r{
+    background-color: red;
+}
+
+.validation-mode{
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.mode{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    cursor: pointer;
+
+}
+
+.mode-on{
+    background-color: #2FED3C;
+
+}
+.mode-off{
+    background-color: red;   
+}
+
 .token-span{
     /*font-size: 18px;*/
 }

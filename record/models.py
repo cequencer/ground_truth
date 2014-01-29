@@ -6,6 +6,10 @@ from label.models import Label
 
 tokenizer = Tokenizer()
 
+class Mode(models.Model):
+    mode = models.BooleanField(default=False)
+        
+
 class Record(models.Model):
     record_id = models.AutoField(primary_key=True)
     record = models.TextField(blank=True)
@@ -26,6 +30,7 @@ class Record(models.Model):
             raise e
 
     def save(self):
+        print 'My save called!'
         if self.pubfile:
             try:
                 fp = open(self.pubfile.get_path(), 'r')
