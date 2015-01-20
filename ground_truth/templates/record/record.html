@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<p><h2><a href='/'>Return</a></h2></p>
 <div class='grid_12 validation-mode'>
     <span>Validation Mode: </span>
     {% if mode.mode == True %}
@@ -30,7 +31,9 @@
 
                 <div class="grid_11">
                     <!--labels-->
+                    <span class="label-button name-dl-label" id="namedl-{{token.token_id}}"><b>Name+DL</b></span>
                     <span class="label-button name-label" id="name-{{token.token_id}}"><b>Name</b></span>
+
 
                     {% for available_label in available_labels %}
                         {% if available_label in token.true_label.all and available_label in token.predicted_label.all %}
@@ -55,7 +58,7 @@
                         {% endif %}
                     {% endfor %}
 
-                    <span class="label-button clear-label" id="clear-{{token.token_id}}"><b>Clear</b></span>
+                    <!-- <span class="label-button clear-label" id="clear-{{token.token_id}}"><b>Clear</b></span> -->
                 </div>
             </div>
 

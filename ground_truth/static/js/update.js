@@ -14,6 +14,11 @@ function update_label(){
         console.log('Success!');
         $(reference).toggleClass('label-1 label-0');
       }
+      else if(res == 2){
+        console.log('VN permuted!');
+        $(reference).toggleClass('label-1 label-0');
+        location.reload();
+      }
       else{
         console.log("There's some unexpected error, please try again later!");
       }
@@ -44,6 +49,35 @@ function select_name(){
       }
     });
 }
+
+function select_name_dl(){
+    var token_id = $(this).attr('id').split('-')[1];
+    var fn_id = '#FN-' + token_id;
+    var ln_id = '#LN-' + token_id;
+    var dl_id = '#DL-' + token_id;
+
+    var fn_reference = $(fn_id);
+    var ln_reference = $(ln_id);
+    var dl_reference = $(dl_id);
+
+    $.post('/align/select_name_dl', 
+    {
+        'selected_id': token_id
+    }, 
+    function(res){
+      if(res == true){
+        console.log('Success!');
+        fn_reference.attr('class', 'label-button label-1');    
+        ln_reference.attr('class', 'label-button label-1');    
+        dl_reference.attr('class', 'label-button label-1');
+        
+      }
+      else{
+        console.log("There's some unexpected error, please try again later!");
+      }
+    });
+}
+
 
 function clear_labels(){
     var token_id = $(this).attr('id').split('-')[1];
@@ -126,7 +160,8 @@ $(document).ready(function() {
     });
 
     $('body').on('click', 'span.name-label', select_name);
-    $('body').on('click', 'span.clear-label', clear_labels)
+    $('body').on('click', 'span.name-dl-label', select_name_dl);
+    $('body').on('click', 'span.clear-label', clear_labels);
 
     $('body').on('click', 'span.label-1', update_label);
     $('body').on('click', 'span.label-0', update_label);

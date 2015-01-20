@@ -126,9 +126,19 @@ def update_label(request):
             #original false, switch it to true, add it
             selected_label = get_object_or_404(Label, label=selected_label_str, label_source=0)
             try:
-                token.true_label.add(selected_label)
-                token.save()
-                return HttpResponse(json.dumps(True), mimetype='application/json')
+                if selected_label.label == 'VN':
+                    # get all following tokens
+                    following_tokens = Pubtoken.objects.all().filter(belonging_record=token.belonging_record, token_sequence_id__gte=token.token_sequence_id)
+                    for following_token in following_tokens:
+                        following_token.true_label.add(selected_label)
+                        following_token.save()
+
+                    return HttpResponse(json.dumps(2), mimetype='application/json')
+
+                else:
+                    token.true_label.add(selected_label)
+                    token.save()
+                    return HttpResponse(json.dumps(True), mimetype='application/json')
             except Exception, e:
                 print e
                 return HttpResponse(json.dumps(False), mimetype='application/json')     
@@ -151,6 +161,29 @@ def select_name(request):
         except Exception, e:
             print e
             return HttpResponse(json.dumps(False), mimetype='application/json')
+
+
+@csrf_exempt
+def select_name_dl(request):
+    if not request.method.lower() == 'post':
+        raise Http404
+    else:
+        token_id = int(request.POST['selected_id'])
+        token = get_object_or_404(Pubtoken, token_id=token_id)
+        
+        fn_label = get_object_or_404(Label, label='FN', label_source=0)
+        ln_label = get_object_or_404(Label, label='LN', label_source=0)
+        dl_label = get_object_or_404(Label, label='DL', label_source=0)
+        try:
+            token.true_label.add(fn_label)
+            token.true_label.add(ln_label)
+            token.true_label.add(dl_label)
+            token.save()
+            return HttpResponse(json.dumps(True), mimetype='application/json')
+        except Exception, e:
+            print e
+            return HttpResponse(json.dumps(False), mimetype='application/json')
+
 
 @csrf_exempt
 def clear_labels(request):

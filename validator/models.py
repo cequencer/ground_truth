@@ -23,7 +23,7 @@ class Validator(models.Model):
 
 
     def __unicode__(self):
-        return self.researcher
+        return self.researcher + str(self.prediction_source) + 'v' + str(self.prediction_file.version)
 
     def save(self):
         if self.prediction_file:

@@ -33,7 +33,7 @@ class PredictionFile(models.Model):
     version = models.IntegerField(blank=True, null=True)
 
     def __unicode__(self):
-        return self.researcher
+        return self.researcher + str(self.prediction_source) + 'v' + str(self.version)
 
     def get_path(self):
         return MEDIA_ROOT + str(self.tagged_file)
@@ -46,7 +46,8 @@ class PredictionFile(models.Model):
     def save(self):
         curr_version_no = 0
         if PredictionFile.objects.filter(researcher=self.researcher, prediction_source=self.prediction_source).exists():   #update version
-            prev_version_no = PredictionFile.objects.filter(researcher=self.researcher)[0].version
+            prev_version_idx = len(PredictionFile.objects.filter(researcher=self.researcher))
+            prev_version_no = PredictionFile.objects.filter(researcher=self.researcher)[prev_version_idx-1].version
             curr_version_no = prev_version_no + 1
 
         self.version = curr_version_no
